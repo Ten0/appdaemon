@@ -23,7 +23,7 @@ import concurrent.futures
 import tomli
 import tomli_w
 import re
-from typing import Callable, ParamSpec, TypeVar, Awaitable, Union
+from typing import Any, Callable, ParamSpec, TypeVar, Awaitable, Union
 
 # Comment
 
@@ -211,8 +211,7 @@ def check_state(logger, new_state, callback_state, name) -> bool:
     return passed
 
 T = ParamSpec('T') # Arguments to the function
-R = TypeVar('R') # Return type of the function
-def sync_wrapper(coro: Callable[T, Awaitable[R]]) -> Callable[T, Union[R, Awaitable[R]]]:
+def sync_wrapper(coro: Callable[T]) -> Callable[T]:
     @wraps(coro)
     def inner_sync_wrapper(self, *args, **kwargs):
         is_async = None
@@ -233,7 +232,7 @@ def sync_wrapper(coro: Callable[T, Awaitable[R]]) -> Callable[T, Union[R, Awaita
 
         return f
 
-    return inner_sync_wrapper  # type: ignore
+    return inner_sync_wrapper
 
 
 def _timeit(func):
