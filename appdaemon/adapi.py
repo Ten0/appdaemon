@@ -2770,7 +2770,7 @@ class ADAPI:
         return handle
 
     @utils.sync_wrapper
-    async def run_every(self, callback: Callable, start: dt.datetime, interval: int, **kwargs) -> str:
+    async def run_every(self, callback: Callable, start: dt.datetime | str, interval: int, **kwargs) -> str:
         """Runs the callback with a configurable delay starting at a specific time.
 
         Args:
